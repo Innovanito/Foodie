@@ -1,6 +1,6 @@
 import { BrowserRouter as Router,Route, Routes  } from "react-router-dom";
 // import {v4 as uuidV4} from 'uuid'
-import "react-bootstrap"
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from "./Home";
 import Login from "./Login";
 
