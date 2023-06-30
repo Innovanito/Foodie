@@ -1,16 +1,17 @@
-import { Col, Row, Tab } from 'react-bootstrap';
+import { Card, Col, Row, Tab } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { FaPlus } from 'react-icons/fa';
+import { Link, Route, Router } from 'react-router-dom';
 
 function Home() {
   return ( 
   <>
     <UpperNavbar/>
-    <LeftNavbar />
+    <RightSidebar/>
   </>
   );
 }
@@ -52,27 +53,26 @@ function UpperNavbar() {
   )
 }
 
-function LeftNavbar() {
+const RightSidebar = () => {
   return (
-    <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-      <Row>
-        <Col sm={3}>
-          <Nav variant="pills" className="flex-column">
-            <Nav.Item>
-              <Nav.Link eventKey="first">레시피</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="second">배달음식 추천</Nav.Link>
-            </Nav.Item>
-          </Nav>
-        </Col>
-        <Col sm={9}>
-          <Tab.Content>
-            <Tab.Pane eventKey="first">First tab content</Tab.Pane>
-            <Tab.Pane eventKey="second">Second tab content</Tab.Pane>
-          </Tab.Content>
-        </Col>
-      </Row>
-    </Tab.Container>
-  )
-}
+      <Container fluid>
+        <Row>
+          <Col sm={4}>
+            <div className="sidebar ">
+              <ul>
+                <li>
+                  <Link to="/" className='text-3xl font-bold underline text-green-600'>메뉴1</Link>
+                </li>
+                <li>
+                  <Link to="/menu2">메뉴2</Link>
+                </li>
+                <li>
+                  <Link to="/menu3">메뉴3</Link>
+                </li>
+              </ul>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+  );
+};

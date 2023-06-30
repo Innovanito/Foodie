@@ -3,6 +3,7 @@ import { BrowserRouter as Router,Route, Routes  } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from "./Home";
 import Login from "./Login";
+import './index.css'
 
 function App() {
 
