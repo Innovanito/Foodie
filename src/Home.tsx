@@ -1,17 +1,16 @@
-import { Card, Col, Row, Tab } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { FaPlus } from 'react-icons/fa';
-import { Link, Route, Router } from 'react-router-dom';
+import { FaCompass, FaHome, FaPlus } from 'react-icons/fa';
+import { NavLink } from 'react-router-dom';
 
 function Home() {
   return ( 
   <>
     <UpperNavbar/>
-    <RightSidebar/>
+    <LeftSidebar/>
   </>
   );
 }
@@ -20,7 +19,7 @@ export default Home;
 
 function UpperNavbar() {
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
+    <Navbar expand="lg" className="bg-body-tertiary" variant='success'>
       <Container fluid>
         <Navbar.Brand href="#" className='px-5'>Foodie</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
@@ -53,26 +52,39 @@ function UpperNavbar() {
   )
 }
 
-const RightSidebar = () => {
+const LeftSidebar = () => {
   return (
-      <Container fluid>
-        <Row>
-          <Col sm={4}>
-            <div className="sidebar ">
-              <ul>
-                <li>
-                  <Link to="/" className='text-3xl font-bold underline text-green-600'>메뉴1</Link>
-                </li>
-                <li>
-                  <Link to="/menu2">메뉴2</Link>
-                </li>
-                <li>
-                  <Link to="/menu3">메뉴3</Link>
-                </li>
-              </ul>
-            </div>
-          </Col>
-        </Row>
+    <div className="vh-100">
+      <Container fluid className="h-100">
+        <div className="d-flex flex-column bg-white shadow-xl h-100 w-64 mt-4">
+          <NavLink
+            to={'/'}
+            className="d-flex px-2 text-3xl my-3 align-items-center"
+            style={({ isActive }) => {
+              return {
+                fontWeight: isActive ? "bold" : "",
+                color: isActive ? "red" : "black",
+              };
+            }}
+          >
+            <FaHome />
+            <h1 className="px-4">Your pick</h1>
+          </NavLink>
+          <NavLink
+            to={'/explore'}
+            className="d-flex px-2 text-3xl align-items-center"
+            style={({ isActive }) => {
+              return {
+                fontWeight: isActive ? "bold" : "",
+                color: isActive ? "red" : "black",
+              };
+            }}
+          >
+            <FaCompass />
+            <h1 className="px-4">Find more</h1>
+          </NavLink>
+        </div>
       </Container>
+    </div>
   );
 };
