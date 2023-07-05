@@ -1,0 +1,13 @@
+.left-sidebar {
+  width: 240px
+}
+
+@media (max-width: 580px) {
+  .left-sidebar {
+    width: 80px;
+  }
+
+  .left-sidebar  h1 {
+    display: none;
+  }
+}

@@ -11,6 +11,7 @@ import { GiHotMeal, GiCupcake } from "react-icons/gi";
 import { NavLink } from 'react-router-dom';
 import Feed from './Feed';
 import { useState } from 'react';
+import './style.css'
 
 function Home() {
   const [leftNavData, setLeftNavData] = useState<string>('meal')
@@ -29,6 +30,7 @@ function Home() {
 export default Home;
 
 function UpperNavbar() {
+  
   return (
     <Navbar expand="lg" className="bg-body-tertiary" variant='success'>
       <Container fluid>
@@ -64,51 +66,50 @@ function UpperNavbar() {
 }
 
 const LeftSidebar = () => {
+  
   return (
-    <div className="vh-100">
-      <Container fluid className="h-100">
-        <div className="d-flex flex-column bg-white shadow-xl h-100 w-64 mt-4">
-          <NavLink
-            to={'/'}
-            className="d-flex px-2 text-3xl my-3 align-items-center"
-            style={({ isActive }) => {
-              return {
-                fontWeight: isActive ? "bold" : "",
-                color: isActive ? "red" : "black",
-              };
-            }}
-          >
-            <GiHotMeal/>
-            <h1 className="px-4">Meal</h1>
-          </NavLink>
-          <NavLink
-            to={'/dessert'}
-            className="d-flex px-2 text-3xl align-items-center"
-            style={({ isActive }) => {
-              return {
-                fontWeight: isActive ? "bold" : "",
-                color: isActive ? "red" : "black",
-              };
-            }}
-          >
-            <GiCupcake />
-            <h1 className="px-4">Dessert</h1>
-          </NavLink>
-          <NavLink
-            to={'/beverage'}
-            className="d-flex px-2 text-3xl align-items-center py-3"
-            style={({ isActive }) => {
-              return {
-                fontWeight: isActive ? "bold" : "",
-                color: isActive ? "red" : "black",
-              };
-            }}
-          >
-            < MdLocalDrink/>
-            <h1 className="px-4">Drinks</h1>
-          </NavLink>
-        </div>
-      </Container>
-    </div>
+    <Container fluid>
+      <div className="left-sidebar flex flex-column bg-white h-screen shadow-xl mt-4">
+        <NavLink
+          to={'/'}
+          className="d-flex px-2 text-3xl my-3 align-items-center"
+          style={({ isActive }) => {
+            return {
+              fontWeight: isActive ? "bold" : "",
+              color: isActive ? "red" : "black",
+            };
+          }}
+        >
+          <GiHotMeal/>
+          <h1 className="px-4">Meal</h1>
+        </NavLink>
+        <NavLink
+          to={'/dessert'}
+          className="d-flex px-2 text-3xl align-items-center"
+          style={({ isActive }) => {
+            return {
+              fontWeight: isActive ? "bold" : "",
+              color: isActive ? "red" : "black",
+            };
+          }}
+        >
+          <GiCupcake />
+          <h1 className="px-4">Dessert</h1>
+        </NavLink>
+        <NavLink
+          to={'/beverage'}
+          className="d-flex px-2 text-3xl align-items-center py-3"
+          style={({ isActive }) => {
+            return {
+              fontWeight: isActive ? "bold" : "",
+              color: isActive ? "red" : "black",
+            };
+          }}
+        >
+          < MdLocalDrink/>
+          <h1 className="px-4">Drinks</h1>
+        </NavLink>
+      </div>
+    </Container>
   );
 };
