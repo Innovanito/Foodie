@@ -2,7 +2,7 @@
   width: 240px
 }
 
-@media (max-width: 580px) {
+@media (max-width: 760px) {
   .left-sidebar {
     width: 80px;
   }
@@ -10,4 +10,9 @@
   .left-sidebar  h1 {
     display: none;
   }
+}
+
+.carousel img {
+  height: 600px;
+  width: 900px;
 }

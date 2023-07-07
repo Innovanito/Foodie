@@ -1,4 +1,4 @@
-import { Button, Card, Carousel } from 'react-bootstrap';
+import { Carousel } from 'react-bootstrap';
 import hamburger1 from './assets/giorgi-iremadze-5ZR4DxAG3RQ-unsplash.jpg'
 import hamburger2 from './assets/jon-parry-4A9IELfRdwE-unsplash.jpg'
 import hamburger3 from './assets/ric-matkowski-T8SD7bwyxHU-unsplash.jpg'
@@ -11,13 +11,12 @@ const Feed = ({leftNavData}: FeedProps) => {
 
   return (
     <>
-      <div className='flex ml-10 overflow-y-scroll'>
-        <div className='flex flex-col w-3/4 items-center p-2 my-4'>
-        
-          <Carousel slide={false} className='my-4	bg-red-800 p-4'>
+      <div className='flex justify-center overflow-y-scroll bg-orange-400'>
+        <div className='flex flex-col w-3/4 items-center justify-center p-2 my-4'>
+          <Carousel className='my-4	bg-red-800 p-4 carousel' interval={null}>
             <Carousel.Item>
               <img
-                className="d-block w-100 w-full"
+                className="d-block h-2/3"
                 src={hamburger1}
                 alt="First slide"
               />
@@ -28,7 +27,7 @@ const Feed = ({leftNavData}: FeedProps) => {
             </Carousel.Item>
             <Carousel.Item>
               <img
-                className="d-block w-100"
+                className="d-block h-2/3"
                 src={hamburger2}
                 alt="Second slide"
               />
@@ -40,7 +39,7 @@ const Feed = ({leftNavData}: FeedProps) => {
             </Carousel.Item>
             <Carousel.Item>
               <img
-                className="d-block w-100"
+                className="d-block h-2/3"
                 src={hamburger3}
                 alt="Third slide"
               />
@@ -53,10 +52,10 @@ const Feed = ({leftNavData}: FeedProps) => {
               </Carousel.Caption>
             </Carousel.Item>
           </Carousel>
-          <Carousel slide={false} className='my-4 bg-red-800 p-4'>
+          <Carousel className='my-4 bg-red-800 p-4' interval={null}>
             <Carousel.Item>
               <img
-                className="d-block w-100 w-full"
+                className="d-block w-full"
                 src={hamburger1}
                 alt="First slide"
               />
@@ -67,7 +66,7 @@ const Feed = ({leftNavData}: FeedProps) => {
             </Carousel.Item>
             <Carousel.Item>
               <img
-                className="d-block w-100"
+                className="d-block"
                 src={hamburger2}
                 alt="Second slide"
               />
@@ -79,7 +78,7 @@ const Feed = ({leftNavData}: FeedProps) => {
             </Carousel.Item>
             <Carousel.Item>
               <img
-                className="d-block w-100"
+                className="d-block"
                 src={hamburger3}
                 alt="Third slide"
               />
