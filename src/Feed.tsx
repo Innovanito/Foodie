@@ -5,7 +5,8 @@ import hamburger3 from './assets/ric-matkowski-T8SD7bwyxHU-unsplash.jpg'
 import { AiOutlineLike,AiTwotoneLike ,AiOutlineShareAlt} from "react-icons/ai";
 import { BiCommentDetail } from "react-icons/bi";
 import {MdSaveAlt} from "react-icons/md";
-
+import './style.css'
+// uuid import 해서 포스트에 id 부과하기
 
 
 
@@ -17,10 +18,10 @@ const Feed = ({leftNavData}: FeedProps) => {
 
   return (
     <>
-      <div className='flex justify-center  bg-orange-400'>
-        <div className='flex flex-col w-3/4 items-center justify-center p-2 my-4 overflow-y-scroll'>
+      <div className='flex flex-auto justify-center  bg-orange-400'>
+        <div className='flex flex-col w-11/12 items-center justify-center p-1 my-4 overflow-y-scroll'>
           <div className="flex flex-row">
-            <Carousel className='my-4	bg-red-800 p-4 carousel' interval={null}>
+            <Carousel className='my-4	bg-red-800 p-2 carousel' interval={null} slide={false}>
               <Carousel.Item>
                 <img
                   className="d-block h-2/3"
@@ -29,6 +30,9 @@ const Feed = ({leftNavData}: FeedProps) => {
                 />
                 <Carousel.Caption>
                   <h3>First slide label</h3>
+                  <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                  <p>2Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                  <p>3Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
                   <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
                 </Carousel.Caption>
               </Carousel.Item>
@@ -59,8 +63,8 @@ const Feed = ({leftNavData}: FeedProps) => {
                 </Carousel.Caption>
               </Carousel.Item>
             </Carousel>
-            <div className=' bg-yellow-400 flex flex-col justify-end pb-5'>
-              <div className='py-2 flex flex-col '>
+            <div className=' bg-yellow-400 flex flex-col justify-end pb-5 '>
+              <div className='py-2 flex flex-col sm:text-xs '>
                 <Button variant='light' >
                   <AiOutlineLike size={30} />
                 </Button>
@@ -70,7 +74,7 @@ const Feed = ({leftNavData}: FeedProps) => {
                 <Button variant='light '>
                   <BiCommentDetail size={30}/>
                 </Button>
-                <h2>comments</h2>
+                <h4 className=' text-xs'>comments</h4>
               </div>
               <div className='py-2 flex flex-col'>
                 <Button variant='light '>
