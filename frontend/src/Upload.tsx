@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 const UploadComponent: React.FC = () => {
   // State to store the uploaded images and description
@@ -43,6 +43,7 @@ const UploadComponent: React.FC = () => {
   // Handler for "Select Images" label click
   const handleLabelClick = () => {
     if (fileInputRef.current) {
+      console.log('fileinputref', fileInputRef.current)
       fileInputRef.current.click();
     }
   };
@@ -59,16 +60,22 @@ const UploadComponent: React.FC = () => {
   // Handler for form submission
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    console.log('submit button pushed');
 
-    // Create a new FormData object to hold the images and description
-    const formData = new FormData();
-    images.forEach((image) => formData.append('images', image));
-    formData.append('description', description);
+    const formData = {
+      images: [...images],
+      desc: description
+    };
+
+
+
+    console.log('images and desc in handleSubmit', images, description)
+    console.log('formData', formData);
 
     // Send the formData to the server (assuming you have the API endpoint defined)
     fetch('/api/upload', {
       method: 'POST',
-      body: formData,
+      // body: formData,
     })
       .then((response) => response.json())
       .then((data) => {
@@ -81,8 +88,13 @@ const UploadComponent: React.FC = () => {
       });
   };
 
+  useEffect(() => {
+    console.log('the value of images and desc', images, description)
+  }, [images, description])
+  
+
   return (
-    <div>
+    <div style={{"maxWidth": "600px" }}>
       <h2>Upload Component</h2>
       <form onSubmit={handleSubmit}>
         <div>
@@ -97,7 +109,6 @@ const UploadComponent: React.FC = () => {
           <label htmlFor="image" onClick={images.length > 0 ? handleUploadMoreLabelClick : handleLabelClick}>
             {images.length > 0 ? 'Upload more' : 'Select Images'}
           </label>
-
           {/* Visible input to show selected file names */}
           <input
             type="text"
