@@ -2,7 +2,7 @@ import { Button, Carousel } from 'react-bootstrap';
 import hamburger1 from './assets/giorgi-iremadze-5ZR4DxAG3RQ-unsplash.jpg'
 import hamburger2 from './assets/jon-parry-4A9IELfRdwE-unsplash.jpg'
 import hamburger3 from './assets/ric-matkowski-T8SD7bwyxHU-unsplash.jpg'
-import { AiOutlineLike,AiTwotoneLike ,AiOutlineShareAlt} from "react-icons/ai";
+import { AiOutlineLike,AiOutlineShareAlt} from "react-icons/ai";
 import { BiCommentDetail } from "react-icons/bi";
 import {MdSaveAlt} from "react-icons/md";
 import './style.css'
