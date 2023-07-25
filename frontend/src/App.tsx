@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css'
 import Home from "./Home";
 import Login from "./Login";
-import Upload from "./Upload";
+import Upload from "./Upload64";
 
 function App() {
 

@@ -1,16 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
-import axios from 'axios'
+import axios from 'axios';
 
 const UploadComponent: React.FC = () => {
   // State to store the uploaded images and description
   const [images, setImages] = useState<File[]>([]);
   const [description, setDescription] = useState<string>('');
 
-  // State to store URLs of the uploaded images to display them
-  const [imageURLs, setImageURLs] = useState<string[]>([]);
+  // State to store base64 encoded images to display them
+  const [base64Images, setBase64Images] = useState<string[]>([]);
 
   // Ref to hold the file input element
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
 
   // Handler for image selection
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,10 +20,22 @@ const UploadComponent: React.FC = () => {
       const selectedFiles = Array.from(event.target.files);
       setImages((prevImages) => [...prevImages, ...selectedFiles]);
 
-      // Create URLs for the selected images and update the state
-      const selectedImageURLs = selectedFiles.map((image) => URL.createObjectURL(image));
-      setImageURLs((prevURLs) => [...prevURLs, ...selectedImageURLs]);
+      // Create base64 strings for the selected images and update the state
+      const promises = selectedFiles.map((image) => getBase64(image));
+      Promise.all(promises).then((base64Strings) =>
+        setBase64Images((prevBase64) => [...prevBase64, ...base64Strings])
+      );
     }
+  };
+
+  // Convert image to base64 string
+  const getBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
   };
 
   // Handler for description input
@@ -36,15 +49,15 @@ const UploadComponent: React.FC = () => {
     updatedImages.splice(index, 1);
     setImages(updatedImages);
 
-    const updatedURLs = [...imageURLs];
-    updatedURLs.splice(index, 1);
-    setImageURLs(updatedURLs);
+    const updatedBase64Images = [...base64Images];
+    updatedBase64Images.splice(index, 1);
+    setBase64Images(updatedBase64Images);
   };
 
   // Handler for "Select Images" label click
   const handleLabelClick = () => {
     if (fileInputRef.current) {
-      console.log('fileinputref', fileInputRef.current)
+      console.log('fileinputref', fileInputRef.current);
       fileInputRef.current.click();
     }
   };
@@ -64,11 +77,14 @@ const UploadComponent: React.FC = () => {
     console.log('submit button pushed');
 
     const formData = {
-      images: [...images],
-      desc: description
+      images: [...base64Images],
+      desc: description,
     };
 
-    axios.post('http://127.0.0.1:8000/api/upload', formData)
+    console.log('formData', formData)
+
+    axios
+      .post('http://127.0.0.1:8000/upload64', formData)
       .then((response) => {
         // Handle the response from the server here (if needed)
         console.log('Upload success:', response.data);
@@ -77,16 +93,11 @@ const UploadComponent: React.FC = () => {
         // Handle any errors that occurred during the upload
         console.error('Error uploading:', error);
       });
-    
   };
 
-  useEffect(() => {
-    console.log('the value of images and desc', images, description)
-  }, [images, description])
-  
 
   return (
-    <div style={{"maxWidth": "600px" }}>
+    <div style={{ maxWidth: '600px' }}>
       <h2>Upload Component</h2>
       <form onSubmit={handleSubmit}>
         <div>
@@ -110,7 +121,7 @@ const UploadComponent: React.FC = () => {
           />
         </div>
         <div>
-          <textarea rows={5} cols={50} id="description" value={description} onChange={handleDescriptionChange} >
+          <textarea rows={5} cols={50} id="description" value={description} onChange={handleDescriptionChange}>
             Write a description of images
           </textarea>
         </div>
@@ -119,13 +130,10 @@ const UploadComponent: React.FC = () => {
 
       {/* Display uploaded images */}
       <div>
-        {imageURLs.map((url, index) => (
-          <div key={url} style={{ position: 'relative', display: 'inline-block', margin: '10px' }}>
-            <img src={url} alt="Uploaded" style={{ width: '300px', height: '300px' }} />
-            <button
-              onClick={() => handleDeleteImage(index)}
-              style={{ position: 'absolute', top: '5px', right: '5px' }}
-            >
+        {base64Images.map((base64String, index) => (
+          <div key={index} style={{ position: 'relative', display: 'inline-block', margin: '10px' }}>
+            <img src={base64String} alt="Uploaded" style={{ width: '300px', height: '300px' }} />
+            <button onClick={() => handleDeleteImage(index)} style={{ position: 'absolute', top: '5px', right: '5px' }}>
               X
             </button>
           </div>
