@@ -5,6 +5,7 @@ import './index.css'
 import Home from "./Home";
 import Login from "./Login";
 import Upload from "./Upload64";
+import ShowImg from "./ShowImg";
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
           <Route  path="/" element={<Home/>} />   
           <Route path="/login" element={<Login/>} />
           <Route path='/upload' element={<Upload/>}/>
+          <Route path='/showImg' element={<ShowImg />} /> 
         </Routes>
       </Router>
     </>

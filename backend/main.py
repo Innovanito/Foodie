@@ -1,8 +1,13 @@
-from fastapi import FastAPI, UploadFile, Form, File, HTTPException
+from fastapi import FastAPI, UploadFile, Form, File, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from motor.motor_asyncio import AsyncIOMotorClient
 from typing import List,Dict
+import gridfs
+from pymongo import MongoClient
+from bson.objectid import ObjectId
+from fastapi.responses import StreamingResponse
+
 
 
 
@@ -57,12 +62,35 @@ mongo_client = AsyncIOMotorClient("mongodb://localhost:27017")
 db = mongo_client["Foodie"]
 collection = db["postData"]
 
+client = MongoClient("mongodb://localhost:27017/")
+db2 = client["Foodie_Image"]
+fs = gridfs.GridFS(db2)
+
 
 
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
 
+@app.get("/api/get_image_by_id/{image_id}")
+def get_image_by_id(image_id : str):
+    try:
+        # Convert the given image_id string to an ObjectId
+        image_object_id = ObjectId(image_id)
+
+        # Retrieve the file from GridFS using the ObjectId
+        image_file = fs.get(image_object_id)
+    except Exception as e:
+        raise HTTPException(status_code=404, detail="Image not found")
+
+    # Set the response content type to "image/jpeg"
+    headers = {
+        "Content-Type": "image/jpeg",
+        "Content-Disposition": f"inline; filename={image_file.filename}",
+    }
+
+    # Stream the binary data as a response
+    return StreamingResponse(iter(image_file), headers=headers)
 
 
 @app.post("/upload")
@@ -125,3 +153,18 @@ def upload_images(data: ImageData):
         return {"message": "Data uploaded successfully!", "inserted_id": str(result.inserted_id)}
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal Server Error")
+
+
+
+# @app.post("/upload_image/")
+# async def upload_image(image: UploadFile = File(...)):
+#     # Save the image data to MongoDB using GridFS
+#     file_id = fs.put(image.file, filename=image.filename)
+#     return {"message": "Image uploaded successfully!", "fil
+    
+
+@app.post("/upload_image/")
+async def upload_image(image: UploadFile = File(...)):
+    # Save the image data to MongoDB using GridFS
+    file_id = fs.put(image.file, filename=image.filename)
+    return {"message": "Image uploaded successfully!", "file_id": str(file_id)}
