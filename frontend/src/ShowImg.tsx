@@ -4,10 +4,10 @@ import axios from 'axios';
 const ShowImg = () => {
   const [imageSrc, setImageSrc] = useState<string>('');
 
-  const image_id = "64c0d79d90e8d567c6813457";
+  const image_id = "64c222d9798a967c841916e7";
   useEffect(() => {
     // Make a GET request to your backend API endpoint to fetch the image data
-    axios.get<Blob>(`http://localhost:8000/api/get_image_by_id/${image_id}`)
+    axios.get<Blob>(`http://localhost:8000/api/get_image_by_id/${image_id}`, { responseType: 'blob' })
       .then(response => {
         // Once the data is fetched, create a blob URL for the image data
         const blob = new Blob([response.data], { type: 'image/jpeg' });
