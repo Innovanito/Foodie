@@ -56,8 +56,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
-mongo_client = AsyncIOMotorClient("mongodb://localhost:27017")
-db = mongo_client["Foodie"]
+motor_client = AsyncIOMotorClient("mongodb://localhost:27017")
+db = motor_client["Foodie"]
 collection = db["postData"]
 
 client = MongoClient("mongodb://localhost:27017")
@@ -153,8 +153,7 @@ async def save_post_with_images(images: List[UploadFile] = File(...), descriptio
         raise ValueError("Failed to save post data to the database")
 
 # Connect to MongoDB using motor
-client = AsyncIOMotorClient("mongodb://localhost:27017/")
-db3: AsyncIOMotorDatabase = client.get_database("postData")
+db3: AsyncIOMotorDatabase = motor_client.get_database("postData")
 pymongo_db = MongoClient("mongodb://localhost:27017/")["postData"]  # Synchronous pymongo client for GridFS
 fs2 = GridFS(pymongo_db, collection="post_images")
 
@@ -185,3 +184,27 @@ async def save_post_with_images(images: List[UploadFile] = File(...), descriptio
 async def upload_images_with_description(images: List[UploadFile] = File(...), description: str = ""):
     post_id = await save_post_with_images(images, description)
     return {"message": "Post with images uploaded successfully", "post_id": post_id}
+
+
+# API endpoint to get specific post information
+@app.get("/api/get_post/{post_id}")
+async def get_post_by_id(post_id: str):
+    try:
+        # Convert the post ID string to ObjectId
+        post_object_id = ObjectId(post_id)
+
+        # Find the post by its _id in the "posts" collection
+        post_collection = db3["posts"]
+        post_data = await post_collection.find_one({"_id": post_object_id})
+
+        # Check if the post exists
+        if post_data is None:
+            raise HTTPException(status_code=404, detail="Post not found")
+
+        # Convert ObjectId to string for image IDs
+        post_data["images"] = [str(image_id) for image_id in post_data["images"]]
+
+        return post_data
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Failed to retrieve post data from the database")
